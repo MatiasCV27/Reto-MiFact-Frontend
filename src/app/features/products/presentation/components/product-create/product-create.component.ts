@@ -14,9 +14,10 @@ import Swal from 'sweetalert2';
 })
 export class ProductCreateComponent {
 
-  private saveProductUseCase = inject(SaveProductUseCase);
   private fb = inject(FormBuilder);
   private router = inject(Router);
+
+  private saveProductUseCase = inject(SaveProductUseCase);
 
   productForm: FormGroup = this.fb.group({
     code: ['', [Validators.required, Validators.minLength(3)]],

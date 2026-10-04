@@ -4,7 +4,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Product } from '../../../domain/model/product.model';
 import { ProductDetailModalComponent } from '../product-detail-modal/product-detail-modal.component';
 import { DeleteProductUseCase } from '../../../application/delete-product.use-case';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,6 +18,8 @@ export class ProductListComponent implements OnInit {
 
   private SearchProductsUseCase = inject(SearchProductsUseCase)
   private deleteProductUseCase = inject(DeleteProductUseCase);
+
+  private router = inject(Router);
 
   products: Product[] = [];
   isLoading: boolean = false;
@@ -34,7 +36,7 @@ export class ProductListComponent implements OnInit {
     this.loadProducts()
   }
 
-loadProducts(): void {
+  loadProducts(): void {
     this.isLoading = true;
     this.SearchProductsUseCase.execute(this.currentPage, this.pageSize).subscribe({
       next: (result) => {
@@ -72,6 +74,11 @@ loadProducts(): void {
   closeModal(): void {
     this.isModalOpen = false;
     this.selectedProduct = null;
+  }
+
+  onEdit(code: string): void {
+    console.log(code)
+    this.router.navigate(['/main/update/', code]);
   }
 
   onDeleteProduct(code: string): void {

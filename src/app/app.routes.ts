@@ -7,6 +7,10 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'main/update/:code',
+    loadComponent: () => import('./features/products/presentation/components/product-update/product-update.component').then(m => m.ProductUpdateComponent)
+  },
+  {
     path: 'main/save',
     loadComponent: () => import('./features/products/presentation/components/product-create/product-create.component').then(m => m.ProductCreateComponent)
   },
