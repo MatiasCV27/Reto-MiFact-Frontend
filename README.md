@@ -78,7 +78,7 @@ Por defecto, el texto ingresado en el buscador se utiliza para realizar una bús
 Ejemplo:
 
 ```text
-PROD001
+PROD-1001
 ```
 
 #### 🎯 Filtros avanzados
@@ -87,7 +87,7 @@ Para realizar consultas más precisas, se pueden utilizar filtros mediante el pr
 
 | Filtro | Ejemplo |
 |---|---|
-| `code` | `code: PROD001` |
+| `code` | `code: PROD-1001` |
 | `name` | `name: example` |
 | `description` | `description: texto` |
 | `category` | `category: categoria` |
