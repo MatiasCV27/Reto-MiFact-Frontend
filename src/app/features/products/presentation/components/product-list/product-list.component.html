@@ -1,0 +1,36 @@
+<div style="padding: 20px;">
+  <h2>Inventario de Productos</h2>
+
+  @if (isLoading) {
+    <p>Cargando productos...</p>
+  } @else {
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px;">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Categoría</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of products; track product.code) {
+          <tr>
+            <td>{{ product.code }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>\${{ product.price }}</td>
+            <td>{{ product.stock }}</td>
+            <td>{{ product.category }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" style="text-align: center;">No hay productos registrados.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

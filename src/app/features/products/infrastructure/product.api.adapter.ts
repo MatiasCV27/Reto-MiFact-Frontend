@@ -11,14 +11,14 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 export class ProductApiAdapter implements ProductRepository {
 
   private http = inject(HttpClient)
-  private apiUrl = 'http://localhost:1100/api/products'
+  private apiUrl = 'http://localhost:1100/api/v1/products'
 
   searchProducts(page: number, size: number): Observable<PaginationResult<Product>> {
     const params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
+      .set('pageNumber', page.toString())
+      .set('pageSize', size.toString());
 
-    return this.http.get<PaginationResult<Product>>(this.apiUrl, { params });
+    return this.http.get<PaginationResult<Product>>(`${this.apiUrl}/search`, { params });
   }
 
   getProduct(code: string): Observable<Product> {
