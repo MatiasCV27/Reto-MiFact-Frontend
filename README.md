@@ -67,9 +67,43 @@ src/
 
 ### 📋 Listado de Productos
 
-Permite visualizar los productos registrados mediante una tabla optimizada y de fácil navegación.
+Permite visualizar los productos registrados mediante una tabla optimizada y de fácil navegación, con acceso rápido a las diferentes operaciones disponibles.
 
-Incluye opciones para acceder rápidamente a las diferentes operaciones disponibles.
+El listado incorpora un **buscador inteligente** que permite realizar consultas simples o utilizar filtros avanzados.
+
+#### 🔎 Búsqueda por defecto
+
+Por defecto, el texto ingresado en el buscador se utiliza para realizar una búsqueda por **código del producto (`code`)**.
+
+Ejemplo:
+
+```text
+PROD001
+```
+
+#### 🎯 Filtros avanzados
+
+Para realizar consultas más precisas, se pueden utilizar filtros mediante el prefijo de la clave correspondiente:
+
+| Filtro | Ejemplo |
+|---|---|
+| `code` | `code: PROD001` |
+| `name` | `name: example` |
+| `description` | `description: texto` |
+| `category` | `category: categoria` |
+| `enabled` | `enabled: true` |
+
+Los filtros pueden **combinarse de manera flexible** dentro de una misma consulta para obtener resultados más específicos.
+
+Por ejemplo:
+
+```text
+name: laptop category: Accesorios
+```
+
+Esta consulta permite buscar productos cuyo nombre coincida con `laptop` y con la categoia `accesorios`
+
+Los filtros son procesados y enviados al **backend**, permitiendo realizar consultas precisas sobre los productos registrados.
 
 ---
 
