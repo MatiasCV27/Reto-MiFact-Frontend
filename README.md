@@ -67,7 +67,7 @@ src/
 
 ### 📋 Listado de Productos
 
-Permite visualizar los productos registrados mediante una tabla optimizada y de fácil navegación, con acceso rápido a las diferentes operaciones disponibles con presionar enter ya filtra los resultados.
+Permite visualizar los productos registrados mediante una tabla optimizada y de fácil navegación, con acceso rápido a las diferentes operaciones disponibles, con presionar enter ya filtra los resultados.
 
 El listado incorpora un **buscador inteligente** que permite realizar consultas simples o utilizar filtros avanzados.
 
