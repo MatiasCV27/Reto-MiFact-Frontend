@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
 })
 export class ProductListComponent implements OnInit {
 
-  private SearchProductsUseCase = inject(SearchProductsUseCase)
+  private searchProductsUseCase = inject(SearchProductsUseCase)
   private deleteProductUseCase = inject(DeleteProductUseCase);
 
   private router = inject(Router);
@@ -38,7 +38,7 @@ export class ProductListComponent implements OnInit {
 
   loadProducts(): void {
     this.isLoading = true;
-    this.SearchProductsUseCase.execute(this.currentPage, this.pageSize).subscribe({
+    this.searchProductsUseCase.execute(this.currentPage, this.pageSize).subscribe({
       next: (result) => {
         this.products = result.content;
         this.totalElements = result.totalElements;
@@ -79,6 +79,66 @@ export class ProductListComponent implements OnInit {
   onEdit(code: string): void {
     console.log(code)
     this.router.navigate(['/main/update/', code]);
+  }
+
+  onSearch(event: any): void {
+    const rawInput = event.target.value.trim();
+    const page = 0;
+    const size = 10;
+
+   let filters: any = {};
+
+    if (rawInput) {
+      if (rawInput.includes(':')) {
+        const regex = /(\w+)\s*:\s*([^\s]+)/g;
+        let match;
+        let foundMatches = false;
+
+        while ((match = regex.exec(rawInput)) !== null) {
+          foundMatches = true;
+          const key = match[1].toLowerCase();
+          const value = match[2];
+
+          switch (key) {
+            case 'code':
+              filters.code = value;
+              break;
+            case 'name':
+              filters.name = value;
+              break;
+            case 'description':
+              filters.description = value;
+              break;
+            case 'category':
+              filters.category = value;
+              break;
+            case 'enabled':
+              filters.enabled = value.toLowerCase() === 'true';
+              break;
+          }
+        }
+
+        if (!foundMatches) {
+          filters.code = rawInput;
+        }
+      } else {
+        filters.code = rawInput;
+      }
+    }
+
+    const finalFilters = Object.keys(filters).length > 0 ? filters : undefined;
+
+    this.searchProductsUseCase.execute(page, size, finalFilters).subscribe({
+      next: (response) => {
+        this.products = response.content;
+        this.totalElements = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error al buscar productos:', err);
+      }
+    });
   }
 
   onDeleteProduct(code: string): void {

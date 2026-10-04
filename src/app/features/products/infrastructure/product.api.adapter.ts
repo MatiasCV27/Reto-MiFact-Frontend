@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { PaginationResult } from "../domain/model/pagination.model";
 import { Product } from "../domain/model/product.model";
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { ProductFilter } from "../domain/model/ProductFilter";
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,19 @@ export class ProductApiAdapter implements ProductRepository {
   private http = inject(HttpClient)
   private apiUrl = 'http://localhost:1100/api/v1/products'
 
-  searchProducts(page: number, size: number): Observable<PaginationResult<Product>> {
-    const params = new HttpParams()
+  searchProducts(page: number, size: number, filters?: ProductFilter): Observable<PaginationResult<Product>> {
+
+    let params = new HttpParams()
       .set('pageNumber', page.toString())
       .set('pageSize', size.toString());
+
+    if (filters) {
+      if (filters.code) params = params.set('code', filters.code);
+      if (filters.name) params = params.set('name', filters.name);
+      if (filters.description) params = params.set('description', filters.description);
+      if (filters.category) params = params.set('category', filters.category);
+      if (filters.enabled !== undefined && filters.enabled !== null) params = params.set('enabled', filters.enabled.toString());
+    }
 
     return this.http.get<PaginationResult<Product>>(`${this.apiUrl}/search`, { params });
   }
