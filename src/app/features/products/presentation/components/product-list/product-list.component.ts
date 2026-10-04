@@ -14,25 +14,45 @@ export class ProductListComponent implements OnInit {
 
   private SearchProductsUseCase = inject(SearchProductsUseCase)
 
-  products: Product[] = []
+  products: Product[] = [];
   isLoading: boolean = false;
+
+  currentPage: number = 0;
+  pageSize: number = 10;
+  totalElements: number = 0;
+  totalPages: number = 0;
 
   ngOnInit(): void {
     this.loadProducts()
   }
 
-  loadProducts(): void {
-
-    this.SearchProductsUseCase.execute(0, 10).subscribe({
-      next: (r) => {
-        this.products = r.content;
+loadProducts(): void {
+    this.isLoading = true;
+    this.SearchProductsUseCase.execute(this.currentPage, this.pageSize).subscribe({
+      next: (result) => {
+        this.products = result.content;
+        this.totalElements = result.totalElements;
+        this.totalPages = result.totalPages;
         this.isLoading = false;
       },
-      error: (e) => {
-        console.error('Error al cargar los productos:', e);
+      error: (err) => {
+        console.error('Error al cargar los productos:', err);
         this.isLoading = false;
       }
-    })
+    });
+  }
 
+  nextPage(): void {
+    if (this.currentPage < this.totalPages - 1) {
+      this.currentPage++;
+      this.loadProducts();
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.loadProducts();
+    }
   }
 }
