@@ -2,11 +2,12 @@ import { SearchProductsUseCase } from './../../../application/search-products.us
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Product } from '../../../domain/model/product.model';
+import { ProductDetailModalComponent } from '../product-detail-modal/product-detail-modal.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProductDetailModalComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
@@ -21,6 +22,9 @@ export class ProductListComponent implements OnInit {
   pageSize: number = 10;
   totalElements: number = 0;
   totalPages: number = 0;
+
+  selectedProduct: Product | null = null;
+  isModalOpen: boolean = false;
 
   ngOnInit(): void {
     this.loadProducts()
@@ -54,5 +58,15 @@ loadProducts(): void {
       this.currentPage--;
       this.loadProducts();
     }
+  }
+
+  openModal(product: Product): void {
+    this.selectedProduct = product;
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.selectedProduct = null;
   }
 }
