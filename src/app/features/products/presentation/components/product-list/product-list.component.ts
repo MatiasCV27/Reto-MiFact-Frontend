@@ -3,20 +3,21 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Product } from '../../../domain/model/product.model';
 import { ProductDetailModalComponent } from '../product-detail-modal/product-detail-modal.component';
-import { DeleteUseCase } from '../../../application/delete.use-case';
+import { DeleteProductUseCase } from '../../../application/delete-product.use-case';
+import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, ProductDetailModalComponent],
+  imports: [CommonModule, ProductDetailModalComponent, RouterLink],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
 export class ProductListComponent implements OnInit {
 
   private SearchProductsUseCase = inject(SearchProductsUseCase)
-  private deleteUseCase = inject(DeleteUseCase);
+  private deleteProductUseCase = inject(DeleteProductUseCase);
 
   products: Product[] = [];
   isLoading: boolean = false;
@@ -88,7 +89,7 @@ loadProducts(): void {
       }
     }).then((result) => {
       if (result.isConfirmed) {
-        this.deleteUseCase.execute(code).subscribe({
+        this.deleteProductUseCase.execute(code).subscribe({
           next: () => {
             Swal.fire({
               title: '¡Eliminado!',

@@ -1,6 +1,21 @@
 import { Routes } from '@angular/router';
-import { ProductListComponent } from './features/products/presentation/components/product-list/product-list.component';
 
 export const routes: Routes = [
-  { path: '', component: ProductListComponent }
+  {
+    path: '',
+    redirectTo: 'main',
+    pathMatch: 'full'
+  },
+  {
+    path: 'main/save',
+    loadComponent: () => import('./features/products/presentation/components/product-create/product-create.component').then(m => m.ProductCreateComponent)
+  },
+  {
+    path: 'main',
+    loadComponent: () => import('./features/products/presentation/components/product-list/product-list.component').then(m => m.ProductListComponent)
+  },
+  {
+    path: '**',
+    redirectTo: 'main'
+  }
 ];
